@@ -1,0 +1,11 @@
+numpy
+pandas
+jsons
+pytorch-lightning
+# torch
+lightning
+wandb
+scikit-learn
+joblib
+scipy
+tqdm

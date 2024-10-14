@@ -1,0 +1,6 @@
+- **Link**: https://drive.google.com/drive/folders/1_HPqG9OrtcBk6o4KLhqHuV8hnCztxUtT?usp=drive_link
+- **Source**: Derived from https://drive.google.com/drive/folders/1MNPU6IWEJxJgCCwGRgy-DsIvFI5SP7K8?usp=drive_link
+- **Symbols Included**: All S&P 500 companies (503 symbols)
+- **Data Time Range**: From January 4, 2010 to October 2, 2020
+- **Columns**: ['Date', 'Symbol', 'Adj_Close', 'Close', 'High', 'Low', 'Open', 'Volume']
+- **Comments**:
