@@ -1,5 +1,7 @@
 {
     "model_name": "Stock_Embedder_Lightning",
+    "resume_training": true,
+    "checkpoint_path": "if resume_training",
     "trainer": {
         "min_epochs": 10,
         "max_epochs": 200,

@@ -102,7 +102,13 @@ def main(cfg: dict, verbose: bool = True, logger = None):
     )
 
     # Run
-    model = StockEmbedderLightning(cfg=cfg['stock_embedder_lightning'], is_training=True)
+    
+    if cfg['resume_training']:
+        model = StockEmbedderLightning.load_from_checkpoint(checkpoint_path = cfg['checkpoint_path'], is_training = True)
+    
+    else:
+        model = StockEmbedderLightning(cfg=cfg['stock_embedder_lightning'], is_training=True)
+        
 
     if verbose:
         logger.info('StockEmbedderLightning created successfully')
@@ -116,12 +122,23 @@ def main(cfg: dict, verbose: bool = True, logger = None):
     # Run: Training
     if verbose:
         logger.info('Start Training')
-
-    trainer.fit(
-        model=model,
-        train_dataloaders=train_dataloader,
-        val_dataloaders=val_dataloader
-    )
+        
+    
+    if cfg['resume_training']:
+        trainer.fit(
+            model=model,
+            ckpt_path = cfg['checkpoint_path'],
+            train_dataloaders=train_dataloader,
+            val_dataloaders=val_dataloader
+        )
+    
+    else:
+        trainer.fit(
+            model=model,
+            train_dataloaders=train_dataloader,
+            val_dataloaders=val_dataloader
+        )
+        
 
     if verbose:
         logger.info(f'Completed Training.')
