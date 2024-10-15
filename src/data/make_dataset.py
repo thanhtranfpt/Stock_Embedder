@@ -49,8 +49,9 @@ def create_dataset(cfg: dict, logger = None):
         cfg (dict):     {
                             'stock_file': str,
                             'create_new_scaler': bool = True,
-                            'scaler_file': str = 'scaler.pkl',
-                            'ts_size': int = 24
+                            'scaler_load_path': None  # if create_new_scaler. Else, str = 'scaler.pkl',
+                            'ts_size': int = 24,
+                            'scaler_save_path': str = 'scaler.pkl'
                         }
     """
 
@@ -73,12 +74,13 @@ def create_dataset(cfg: dict, logger = None):
 
         # Huấn luyện scaler trên toàn bộ dữ liệu stock
         scaler.fit(stock_df[features])
+    
+    else:
+        # Load scaler đã lưu
+        scaler = joblib.load(filename=cfg['scaler_load_path'])
 
-        # Lưu scaler để sử dụng sau này
-        joblib.dump(scaler, filename=cfg['scaler_file'])
-
-    # Load scaler đã lưu
-    scaler = joblib.load(filename=cfg['scaler_file'])
+    # Lưu scaler để sử dụng sau này
+    joblib.dump(scaler, filename=cfg['scaler_save_path'])
     
     # Chuẩn hóa dữ liệu train bằng scaler
     stock_df[scaler.feature_names_in_] = scaler.transform(stock_df[scaler.feature_names_in_])

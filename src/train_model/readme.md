@@ -1,3 +1,6 @@
+# Config
+
+```json
 {
     "model_name": "Stock_Embedder_Lightning",
     "trainer": {
@@ -8,7 +11,7 @@
     "dataset": {
         "stock_file": "",
         "create_new_scaler": true,
-        "scaler_load_path": null
+        "scaler_load_path": null  # if create_new_scaler: str. Else, str
     },
     "dataloaders": {
         "split_ratio": {
@@ -22,8 +25,18 @@
         "training": {
             "mode": 3,
             "resume": true,
-            "checkpoint_path": ""
-        }
+            "checkpoint_path": null  # if not resume training. Else, str
+        },
+        "model": {
+            "z_dim": int = 6,
+            "ts_size": int = 24,
+            "mask_size": int = 1,
+            "num_masks": int = 3,
+            "hidden_dim": int = 12,
+            "embed_dim": int = 6,
+            "num_layers": int = 3,
+            "num_embed": int = 32
+        }  # if not resume training. Else, removed
     },
     "output_dir": "",
     "verbose": true

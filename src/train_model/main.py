@@ -104,18 +104,46 @@ def main(cfg: dict, verbose: bool = True, logger = None):
     # Run
     
     if cfg['stock_embedder_lightning']['training']['resume']:
-        model = StockEmbedderLightning.load_from_checkpoint(checkpoint_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'], is_training = True, override_cfg = cfg['stock_embedder_lightning'])
+        model = StockEmbedderLightning.load_from_checkpoint(
+            checkpoint_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'],
+            is_training = True,
+            override_cfg = {
+                'training': {
+                    'mode': cfg['stock_embedder_lightning']['training']['mode']
+                }
+            }
+        )
     
     else:
-        model = StockEmbedderLightning(cfg=cfg['stock_embedder_lightning'], is_training=True)
+        model = StockEmbedderLightning(
+            cfg={
+                'training': {
+                    'mode': cfg['stock_embedder_lightning']['training']['mode']
+                },
+                'model': cfg['stock_embedder_lightning']['model']
+            },
+            is_training=True
+        )
         
 
     if verbose:
         logger.info('StockEmbedderLightning created successfully')
     
     # Create dataset and dataloaders
-    dataset = create_dataset(cfg=cfg['dataset'], logger=logger)
+
+    dataset = create_dataset(
+        cfg={
+            'stock_file': cfg['dataset']['stock_file'],
+            'create_new_scaler': cfg['dataset']['create_new_scaler'],
+            'scaler_load_path': cfg['dataset']['scaler_load_path'],
+            'ts_size': model.config['model']['ts_size'],
+            'scaler_save_path': os.path.join(cfg['output_dir'], 'scaler.pkl')
+        },
+        logger=logger
+    )
+
     train_dataloader, val_dataloader, test_dataloader = create_dataloaders(dataset=dataset, cfg=cfg['dataloaders'])
+
     if verbose:
         logger.info('Dataset and Dataloaders created successfully.')
 
@@ -123,22 +151,12 @@ def main(cfg: dict, verbose: bool = True, logger = None):
     if verbose:
         logger.info('Start Training')
         
-    
-    if cfg['stock_embedder_lightning']['training']['resume']:
-        trainer.fit(
-            model=model,
-            ckpt_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'],
-            train_dataloaders=train_dataloader,
-            val_dataloaders=val_dataloader
-        )
-    
-    else:
-        trainer.fit(
-            model=model,
-            train_dataloaders=train_dataloader,
-            val_dataloaders=val_dataloader
-        )
-        
+    trainer.fit(
+        model=model,
+        ckpt_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'],
+        train_dataloaders=train_dataloader,
+        val_dataloaders=val_dataloader
+    )
 
     if verbose:
         logger.info(f'Completed Training.')
