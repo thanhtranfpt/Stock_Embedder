@@ -11,7 +11,7 @@
     "dataset": {
         "stock_file": "",
         "create_new_scaler": true,
-        "scaler_load_path": null  # if create_new_scaler: str. Else, str
+        "scaler_load_path": null  # if create_new_scaler. Else, str
     },
     "dataloaders": {
         "split_ratio": {
@@ -25,7 +25,7 @@
         "training": {
             "mode": 3,
             "resume": true,
-            "checkpoint_path": null  # if not resume training. Else, str
+            "checkpoint_path": ""  # if resume training. Else, null
         },
         "model": {
             "z_dim": int = 6,
