@@ -103,8 +103,8 @@ def main(cfg: dict, verbose: bool = True, logger = None):
 
     # Run
     
-    if cfg['resume_training']:
-        model = StockEmbedderLightning.load_from_checkpoint(checkpoint_path = cfg['checkpoint_path'], is_training = True)
+    if cfg['stock_embedder_lightning']['training']['resume']:
+        model = StockEmbedderLightning.load_from_checkpoint(checkpoint_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'], is_training = True, override_cfg = cfg['stock_embedder_lightning'])
     
     else:
         model = StockEmbedderLightning(cfg=cfg['stock_embedder_lightning'], is_training=True)
@@ -124,10 +124,10 @@ def main(cfg: dict, verbose: bool = True, logger = None):
         logger.info('Start Training')
         
     
-    if cfg['resume_training']:
+    if cfg['stock_embedder_lightning']['training']['resume']:
         trainer.fit(
             model=model,
-            ckpt_path = cfg['checkpoint_path'],
+            ckpt_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'],
             train_dataloaders=train_dataloader,
             val_dataloaders=val_dataloader
         )
