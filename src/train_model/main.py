@@ -17,6 +17,7 @@ from src.utils.logger_config import get_logger
 from src.data.make_dataset import create_dataset, create_dataloaders
 # from lightning.pytorch.strategies import FSDPStrategy
 from src.models.stock_embedder import StockEmbedderLightning
+import joblib
 
 
 def load_config(config_file: str):
@@ -160,6 +161,12 @@ def main(cfg: dict, verbose: bool = True, logger = None):
 
     if verbose:
         logger.info(f'Done Testing.')
+    
+    # Save
+    joblib.dump(cfg, filename=os.path.join(cfg['output_dir'], 'config.pkl'))
+
+    if verbose:
+        logger.info('Saved config.')
 
 
 if __name__ == '__main__':
