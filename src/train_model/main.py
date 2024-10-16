@@ -185,8 +185,7 @@ if __name__ == '__main__':
         name=__name__,
         log_file=os.path.join(
             cfg['output_dir'],
-            'logs',
-            '1.log'
+            'logs.log'
         ),
         mode='w'
     )
