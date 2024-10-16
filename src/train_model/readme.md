@@ -3,6 +3,10 @@
 ```json
 {
     "model_name": "Stock_Embedder_Lightning",
+    "training": {
+        "resume": true,
+        "checkpoint_path": ""  # if resume training. Else, null
+    },
     "trainer": {
         "min_epochs": 1,
         "max_epochs": 200,
@@ -23,9 +27,7 @@
     },
     "stock_embedder_lightning": {
         "training": {
-            "mode": 3,
-            "resume": true,
-            "checkpoint_path": ""  # if resume training. Else, null
+            "mode": 3  # if not resume training. Else, [Optional] = [Removed]
         },
         "model": {
             "z_dim": int = 6,
@@ -36,7 +38,7 @@
             "embed_dim": int = 6,
             "num_layers": int = 3,
             "num_embed": int = 32
-        }  # if not resume training. Else, removed
+        }  # if not resume training. Else, [Removed]
     },
     "output_dir": "",
     "verbose": true

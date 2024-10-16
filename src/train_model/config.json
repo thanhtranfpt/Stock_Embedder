@@ -1,5 +1,9 @@
 {
     "model_name": "Stock_Embedder_Lightning",
+    "training": {
+        "resume": true,
+        "checkpoint_path": ""
+    },
     "trainer": {
         "min_epochs": 1,
         "max_epochs": 200,
@@ -20,9 +24,7 @@
     },
     "stock_embedder_lightning": {
         "training": {
-            "mode": 3,
-            "resume": true,
-            "checkpoint_path": ""
+            "mode": 3
         }
     },
     "output_dir": "",

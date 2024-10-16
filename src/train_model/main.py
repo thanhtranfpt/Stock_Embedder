@@ -103,25 +103,16 @@ def main(cfg: dict, verbose: bool = True, logger = None):
 
     # Run
     
-    if cfg['stock_embedder_lightning']['training']['resume']:
+    if cfg['training']['resume']:
         model = StockEmbedderLightning.load_from_checkpoint(
-            checkpoint_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'],
+            checkpoint_path = cfg['training']['checkpoint_path'],
             is_training = True,
-            override_cfg = {
-                'training': {
-                    'mode': cfg['stock_embedder_lightning']['training']['mode']
-                }
-            }
+            override_cfg = cfg['stock_embedder_lightning']
         )
     
     else:
         model = StockEmbedderLightning(
-            cfg={
-                'training': {
-                    'mode': cfg['stock_embedder_lightning']['training']['mode']
-                },
-                'model': cfg['stock_embedder_lightning']['model']
-            },
+            cfg=cfg['stock_embedder_lightning'],
             is_training=True
         )
         
@@ -133,9 +124,7 @@ def main(cfg: dict, verbose: bool = True, logger = None):
 
     dataset = create_dataset(
         cfg={
-            'stock_file': cfg['dataset']['stock_file'],
-            'create_new_scaler': cfg['dataset']['create_new_scaler'],
-            'scaler_load_path': cfg['dataset']['scaler_load_path'],
+            **cfg['dataset'],
             'ts_size': model.config['model']['ts_size'],
             'scaler_save_path': os.path.join(cfg['output_dir'], 'scaler.pkl')
         },
@@ -153,7 +142,7 @@ def main(cfg: dict, verbose: bool = True, logger = None):
         
     trainer.fit(
         model=model,
-        ckpt_path = cfg['stock_embedder_lightning']['training']['checkpoint_path'],
+        ckpt_path = cfg['training']['checkpoint_path'],
         train_dataloaders=train_dataloader,
         val_dataloaders=val_dataloader
     )
