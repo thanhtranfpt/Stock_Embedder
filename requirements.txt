@@ -1,8 +1,11 @@
 numpy
+# nltk
 pandas
 jsons
-pytorch-lightning
+ta
+# tensorflow
 # torch
+pytorch-lightning
 lightning
 wandb
 scikit-learn
