@@ -8,7 +8,7 @@ from src.models.utils import generate_random_masks
 
 
 class StockEmbedderLightning(L.LightningModule):
-    def __init__(self, cfg: dict, is_training: bool = False, override_cfg: dict = None):
+    def __init__(self, cfg: dict, is_training: bool = False, override_cfg: dict = None, program_logger = None):
         """
         Args:
             cfg (dict):     {
@@ -37,6 +37,8 @@ class StockEmbedderLightning(L.LightningModule):
         self.config = cfg
 
         self.is_training = is_training
+        
+        self.program_logger = program_logger
 
         if self.is_training:
             self.save_hyperparameters({'cfg': cfg})
@@ -243,3 +245,14 @@ class StockEmbedderLightning(L.LightningModule):
 
 
         return loss
+    
+    
+    def on_train_epoch_end(self):
+        if self.program_logger:
+            self.program_logger.info(f'Epoch: {self.current_epoch}')
+        
+            epoch_mean = torch.stack(self.training_step_outputs).mean()
+            self.program_logger.info(f"training_epoch_mean: {epoch_mean}")
+        
+            # free up the memory
+            self.training_step_outputs.clear()

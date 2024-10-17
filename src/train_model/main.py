@@ -108,13 +108,15 @@ def main(cfg: dict, verbose: bool = True, logger = None):
         model = StockEmbedderLightning.load_from_checkpoint(
             checkpoint_path = cfg['training']['checkpoint_path'],
             is_training = True,
-            override_cfg = cfg['stock_embedder_lightning']
+            override_cfg = cfg['stock_embedder_lightning'],
+            program_logger = logger
         )
     
     else:
         model = StockEmbedderLightning(
             cfg=cfg['stock_embedder_lightning'],
-            is_training=True
+            is_training=True,
+            program_logger=logger
         )
         
 
