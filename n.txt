@@ -1,0 +1,14 @@
+làm bert self attn
+
+
+tạo folder configs chung --> training config , predict config
+predict --> predict.py
+train --> train.py
+read me --> chung, utils đem ra ngoài --> train_utils.py (đặt trong src/utils/)
+model_utils --> ...
+1 file ko nên để trong dir
+
+sửa structure củA news giống stock
+
+- tìm hiểu wandb
+- code đánh giá stock embedder theo extraMAE + chạy đánh giá các models để anh Tiến xem

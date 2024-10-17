@@ -250,9 +250,3 @@ class StockEmbedderLightning(L.LightningModule):
     def on_train_epoch_end(self):
         if self.program_logger:
             self.program_logger.info(f'Completed Training Epoch: {self.current_epoch}')
-        
-            epoch_mean = torch.stack(self.training_step_outputs).mean()
-            self.program_logger.info(f"training_epoch_mean: {epoch_mean}")
-        
-            # free up the memory
-            self.training_step_outputs.clear()
