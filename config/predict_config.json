@@ -1,0 +1,7 @@
+{
+    "checkpoint_path": "",
+    "scaler_file": "",
+    "embedding_used": "encoder",
+    "output_dir": "",
+    "verbose": true
+}

@@ -1,0 +1,33 @@
+{
+    "model_name": "Stock_Embedder_Lightning",
+    "version": "ver_3_1",
+    "training": {
+        "resume": true,
+        "checkpoint_path": "/home/tiennv/FPT/Finance_Forecast/Models_Development/Stock_Embedder/models/pretrained/ver_1/best.ckpt"
+    },
+    "trainer": {
+        "min_epochs": 1,
+        "max_epochs": 20,
+        "max_steps": -1
+    },
+    "dataset": {
+        "stock_file": "/home/tiennv/FPT/Finance_Forecast/Models_Development/Stock_Embedder/data/processed/ver_2/all.csv",
+        "create_new_scaler": true,
+        "scaler_load_path": null
+    },
+    "dataloaders": {
+        "split_ratio": {
+            "train": 0.8,
+            "val": 0.1,
+            "test": 0.1
+        },
+        "batch_size": 1024
+    },
+    "stock_embedder_lightning": {
+        "training": {
+            "mode": 3
+        }
+    },
+    "output_dir": "/home/tiennv/FPT/Finance_Forecast/Models_Development/Stock_Embedder/models/trained_models/ver_3_1",
+    "verbose": true
+}
