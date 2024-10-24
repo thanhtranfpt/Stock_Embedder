@@ -12,7 +12,7 @@ Stock Embedder of The Finance Forecasting Project
     ```json
     {
         "model_name": str = "Stock_Embedder_Lightning",
-        "version": str = "ver_3_1",
+        "version": str = "",
         "training": {
             "resume": bool = true,
             "checkpoint_path": str = ""  # if resume training. Else, null
@@ -89,7 +89,16 @@ Stock Embedder of The Finance Forecasting Project
     - **Source**: Derived from https://drive.google.com/drive/folders/1MNPU6IWEJxJgCCwGRgy-DsIvFI5SP7K8?usp=drive_link
     - **Symbols Included**: All S&P 500 companies (503 symbols)
     - **Data Time Range**: From January 4, 2010 to October 2, 2020
-    - **Columns**: ['Date', 'Symbol', 'Adj_Close', 'Close', 'High', 'Low', 'Open', 'Volume']
+    - **Columns**: `['Date', 'Symbol', 'Adj_Close', 'Close', 'High', 'Low', 'Open', 'Volume']`
+    - **Comments**:
+
+- **ver_3**
+    - **Link**: https://drive.google.com/drive/folders/1LOC_t0--IWT3bLTAIjoaSVVRH__cgcKq?usp=drive_link
+    - **Source**: Derived from https://drive.google.com/drive/folders/1MNPU6IWEJxJgCCwGRgy-DsIvFI5SP7K8?usp=drive_link
+    - **Symbols Included**: All S&P 500 companies (503 symbols)
+    - **Data Time Range**: From January 4, 2010 to October 2, 2020
+    - **Technical Indicators**: Yes
+    - **Columns**: `['Date', 'Symbol', 'Adj_Close', 'Close', 'High', 'Low', 'Open', 'Volume']` + *Technical Indicators*
     - **Comments**:
 
 
