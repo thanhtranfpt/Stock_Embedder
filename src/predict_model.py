@@ -62,6 +62,7 @@ def main(cfg: dict, stock_df: pd.DataFrame, verbose: bool = True, logger = None)
     stock_data = stock_data.unsqueeze(dim=0)  # Add batch dimension: shape = (1, ts_size, n_features)
 
     with torch.no_grad():
+        stock_data = stock_data.to(stock_embedder.device)
         stock_embedding = stock_embedder.get_embedding(stock_data, embedding_used=cfg['embedding_used'])
     
     stock_embedding = stock_embedding.cpu().numpy()
@@ -82,7 +83,8 @@ if __name__ == '__main__':
         'High': np.random.uniform(100, 300, size=100),
         'Low': np.random.uniform(100, 300, size=100),
         'Open': np.random.uniform(100, 300, size=100),
-        'Volume': np.random.uniform(100, 300000, size=100)
+        'Volume': np.random.uniform(100, 300000, size=100),
+        **{f: np.random.uniform(100, 300, size=100) for f in ['stoch', 'adx', 'bollinger_hband', 'mfi', 'rsi', 'ma', 'std', 'adl', 'williams', 'macd', 'obv', 'sar', 'ichimoku_a', 'ichimoku_b']}
     })
 
     # Tạo parser và thêm tham số cho file cấu hình
