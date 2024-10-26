@@ -3,7 +3,7 @@ import lightning as L
 import torch
 from torch import nn
 from torch.nn import functional as F
-from src.utils.model_utils import generate_random_masks, mask_it
+from src.utils.models.stock_embedder_utils import generate_random_masks, mask_it
 from einops import rearrange
 
 
@@ -180,7 +180,7 @@ class StockEmbedderLightning(L.LightningModule):
         """
         Args:
             cfg (dict):     {
-                                'training': {
+                                'training': {  # if is_training
                                     'mode': int = 3  # 1: train_ae | 2: train_embed | 3: train_recon
                                 },
                                 'model': {
@@ -224,8 +224,9 @@ class StockEmbedderLightning(L.LightningModule):
             *   Check config
         """
 
-        if self.config['training']['mode'] not in [1, 2, 3]:
-            raise Exception('training_mode must be: 1 or 2 or 3.')
+        if self.is_training:
+            if self.config['training']['mode'] not in [1, 2, 3]:
+                raise Exception('training_mode must be: 1 or 2 or 3.')
 
 
     def get_embedding(self, x: torch.Tensor, embedding_used: str):
