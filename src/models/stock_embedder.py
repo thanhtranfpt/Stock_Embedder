@@ -3,7 +3,7 @@ import lightning as L
 import torch
 from torch import nn
 from torch.nn import functional as F
-from src.utils.models.stock_embedder_utils import generate_random_masks, mask_it
+from src.utils.model_utils import generate_random_masks, mask_it
 from einops import rearrange
 
 
