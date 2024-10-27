@@ -63,7 +63,7 @@ def main(cfg: dict, stock_df: pd.DataFrame, verbose: bool = True, logger = None)
 
     with torch.no_grad():
         stock_data = stock_data.to(stock_embedder.device)
-        stock_embedding = stock_embedder.get_embedding(stock_data, embedding_used=cfg['embedding_used'])
+        stock_embedding = stock_embedder.get_embedding(stock_data)
     
     stock_embedding = stock_embedding.cpu().numpy()
 

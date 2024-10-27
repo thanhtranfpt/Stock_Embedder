@@ -229,30 +229,23 @@ class StockEmbedderLightning(L.LightningModule):
                 raise Exception('training_mode must be: 1 or 2 or 3.')
 
 
-    def get_embedding(self, x: torch.Tensor, embedding_used: str):
+    def get_embedding(self, x: torch.Tensor):
         """
             defines the prediction/inference actions
             
             *   INPUT:
                         x (torch.Tensor):       --> shape: (batch_size, ts_size, z_dim)
                                                 --> NORMALIZED using scaler
-                        embedding_used (str):   --> encoder | decoder
             *   OUTPUT:
                         stock_embedding -->  shape: (batch_size, ts_size, z_dim)
 
         """
 
-        if embedding_used not in ['encoder', 'decoder']:
-            raise Exception('embedding_used must be: encoder or decoder')
-
         self.model.eval()  # Đảm bảo mô hình ở chế độ đánh giá
         with torch.no_grad():  # Tắt tính toán gradient để tăng tốc độ và tiết kiệm bộ nhớ
             x_enc, x_dec = self.model.forward_ae(x)
         
-        if embedding_used == 'encoder':
-            return x_enc
-        
-        return x_dec
+        return x_enc
     
 
     def configure_optimizers(self):

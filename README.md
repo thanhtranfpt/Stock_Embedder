@@ -67,7 +67,6 @@ Stock Embedder of The Finance Forecasting Project
     {
         "checkpoint_path": str = "",
         "scaler_file": str = "",
-        "embedding_used": str = "encoder",
         "output_dir": str = "",
         "verbose": bool = true
     }
