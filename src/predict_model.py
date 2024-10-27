@@ -7,7 +7,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 from src.utils.logger_config import get_logger
-from src.models.stock_embedder import StockEmbedderLightning
+from src.models import StockEmbedderLightning
 import joblib
 
 

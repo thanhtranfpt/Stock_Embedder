@@ -12,11 +12,10 @@ from lightning.pytorch.loggers import WandbLogger
 import os
 import sys
 sys.path.append(os.getcwd())
-# from src.utils.train_utils import GPUUsageLogger
 from src.utils.logger_config import get_logger
 from src.data.make_dataset import create_dataset, create_dataloaders
 # from lightning.pytorch.strategies import FSDPStrategy
-from src.models.stock_embedder import StockEmbedderLightning
+from src.models import StockEmbedderLightning
 import joblib
 
 

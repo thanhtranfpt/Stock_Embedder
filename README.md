@@ -76,7 +76,7 @@ Stock Embedder of The Finance Forecasting Project
 
 # Models Trained
 
-- **Author's pretrained**: https://drive.google.com/drive/folders/1wL1GAkzCax71vM_7tXYlpiSFcGNVb20F?usp=drive_link
+- **Author's Pretrained**: https://drive.google.com/drive/folders/1wL1GAkzCax71vM_7tXYlpiSFcGNVb20F?usp=drive_link
 
 - **Models_Notes**: https://docs.google.com/spreadsheets/d/1thZECwq45yi7cjM8rINQkrbYbnbAtw6wWsCQIW1g118/edit?usp=drive_link
 
