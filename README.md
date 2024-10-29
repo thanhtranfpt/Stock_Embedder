@@ -112,3 +112,10 @@ Stock Embedder of The Finance Forecasting Project
     - **Columns**:
         - **sp500_stocks.csv**: `['Date', 'Symbol', 'Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']`
     - **Comments**:
+
+
+# Released Models
+- **ver_2_1**
+    - **Link**: https://drive.google.com/drive/folders/1anwdW-hDN2rAfRmz9NBOrwxAw50jjylQ?usp=drive_link
+- **ver_3_2**
+    - **Link**: https://drive.google.com/drive/folders/14XiNrcM1bYqHcJNYwbOVvvqPZdr3eNk2?usp=drive_link
