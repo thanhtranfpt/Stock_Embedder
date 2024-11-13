@@ -1,9 +1,23 @@
-import lightning as L
-# import pytorch_lightning as pl
 import torch
+import lightning as L
 from torch import nn
-from torch.nn import functional as F
 from einops import rearrange
+
+
+def attempt_load(model, checkpoint_path):
+    if hasattr(checkpoint_path, 'state_dict'):
+        weights = checkpoint_path['state_dict']
+    else:
+        weights = torch.load(checkpoint_path)['state_dict']
+        
+    reweights = dict()
+    for k, v in weights.items():
+        reweights[k[6:]] = v
+    
+    model.load_state_dict(reweights)
+    model.eval()
+    
+    return model
 
 
 def generate_pseudo_masks(ts_size: int, num_samples: int):
@@ -151,7 +165,7 @@ class Interpolator(nn.Module):
     
 
 class StockEmbedding(nn.Module):
-    def __init__(self, cfg: dict) -> None:
+    def __init__(self, cfg: dict, mode: str = 'ae') -> None:
 
         """
         Args:
@@ -179,10 +193,16 @@ class StockEmbedding(nn.Module):
         self.interpolator = Interpolator(cfg=self.config)
 
         self.decoder = Decoder(cfg=self.config)
-
+        
+        self.mode = mode
 
         print('StockEmbedding initialized')
 
+    def forward(self, x, mask='None'):
+        if self.mode == 'ae':
+            return self.forward_ae(x)
+        
+        return self.forward_mae(x, mask)
 
     def forward_ae(self, x: torch.Tensor):
         """
@@ -460,3 +480,4 @@ class StockEmbedderLightning(L.LightningModule):
     def on_train_epoch_end(self):
         if self.program_logger:
             self.program_logger.info(f'Completed Training Epoch: {self.current_epoch}')
+            

@@ -2,25 +2,21 @@ import time
 import onnx
 import torch
 import argparse
-from models import StockEmbedding
+import importlib.util
+
+import os
+import sys
+from pathlib import Path
+FILE = Path(__file__).resolve()
+ROOT = FILE.parents[0]  # root directory
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))  # add ROOT to PATH
+ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
+
+from models import StockEmbedding, attempt_load
 
 
 DEVICE = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
-
-def attem_load(model, checkpoint_path):
-    if hasattr(checkpoint_path, 'state_dict'):
-        weights = checkpoint_path['state_dict']
-    else:
-        weights = torch.load(checkpoint_path)['state_dict']
-        
-    reweights = dict()
-    for k, v in weights.items():
-        reweights[k[6:]] = v
-    
-    model.load_state_dict(reweights)
-    model.eval()
-    
-    return model
 
 
 if __name__ == '__main__':
@@ -46,7 +42,7 @@ if __name__ == '__main__':
     # Load Model
     tempt = torch.load(args.checkpoint_path)
     stock_embedder = StockEmbedding(tempt['hyper_parameters']['cfg']['model'], mode='ae')
-    stock_embedder = attem_load(stock_embedder, args.checkpoint_path)
+    stock_embedder = attempt_load(stock_embedder, args.checkpoint_path)
     stock_embedder = stock_embedder.to(DEVICE)
     
     t_size = 24
@@ -90,8 +86,14 @@ if __name__ == '__main__':
     
     if args.simplify:
         try:
+            if importlib.util.find_spec('onnxsim') is None:
+                import os
+            
+                os.system('pip install onnxsim')
+                print("Import ONNXRuntime sucessfully")
+            
             import onnxsim
-
+            
             print("\nStarting to simplify ONNX...")
             onnx_model, check = onnxsim.simplify(onnx_model)
             assert check, "assert check failed"
@@ -100,9 +102,15 @@ if __name__ == '__main__':
             
     if args.cleanup:
         try:
-            print("\nStarting to cleanup ONNX using onnx_graphsurgeon...")
+            if importlib.util.find_spec('onnx_graphsurgeon') is None:
+                import os
+            
+                os.system('pip install onnx_graphsurgeon')
+                print("Import ONNXRuntime sucessfully")
+            
             import onnx_graphsurgeon as gs
 
+            print("\nStarting to cleanup ONNX using onnx_graphsurgeon...")
             graph = gs.import_onnx(onnx_model)
             graph = graph.cleanup().toposort()
             onnx_model = gs.export_onnx(graph)
@@ -112,8 +120,8 @@ if __name__ == '__main__':
 
     input = [node for node in onnx_model.graph.input]
     output =[node for node in onnx_model.graph.output]
-    print('\nModel Inputs: ', input)
-    print('\nModel Outputs: ', output)
+    print('\nInput: ', input)
+    print('\nOutputs: ', output)
     
     onnx.save(onnx_model, saved_path)
     print("ONNX export success, saved as %s" % saved_path)

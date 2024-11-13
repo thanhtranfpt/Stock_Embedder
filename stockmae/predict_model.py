@@ -6,8 +6,8 @@ import pandas as pd
 import os
 import sys
 sys.path.append(os.getcwd())
-from src.utils.logger_config import get_logger
-from src.models import StockEmbedderLightning
+from stockmae.utils.logger_config import get_logger
+from models import StockEmbedderLightning
 import joblib
 
 
