@@ -3,7 +3,6 @@ pandas
 jsons
 ta
 # torch
-pytorch-lightning
 lightning
 wandb
 scikit-learn
@@ -12,3 +11,8 @@ scipy
 tqdm
 einops
 tensorboard
+
+# Export onnx
+onnx
+# onnxruntime # inference with cpu
+# onnxruntime-gpu # inference with gpu
