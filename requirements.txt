@@ -11,6 +11,7 @@ scipy
 tqdm
 einops
 tensorboard
+tf-keras
 
 # Export onnx
 onnx
